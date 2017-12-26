@@ -59,7 +59,7 @@ mui开源框架
 ##### 注意事项：
   1、折叠面板布局必须在`mui-content`下
   2、外层使用 `mui-card` 包裹产生边缘
-# 完整代码
+##### 完整代码
 ```html
 <header class="mui-bar mui-bar-nav">
     <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
