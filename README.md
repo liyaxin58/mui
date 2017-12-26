@@ -544,25 +544,335 @@ document.querySelector('.mui-slider').addEventListener('slide', function(event) 
   }
 });
 ```
+18. 普通列表
+列表是常用的UI控件，mui封装的列表组件比较简单，只需要在`ul`节点上添加`.mui-table-view`类、在`li`节点上添加`.mui-table-view-cell`类即可，
+如下为示例代码
+```html
+<ul class="mui-table-view">
+    <li class="mui-table-view-cell">Item 1</li>
+    <li class="mui-table-view-cell">Item 2</li>
+    <li class="mui-table-view-cell">Item 3</li>
+</ul>
+```
+若右侧需要增加导航箭头，变成导航链接，则只需在`li`节点下增加`a`子节点，并为该`a`节点增加`.mui-navigate-right`类即可，如下：
+```html
+<ul class="mui-table-view">
+    <li class="mui-table-view-cell"><a class="mui-navigate-right">Item 1</a></li>
+    <li class="mui-table-view-cell"><a class="mui-navigate-right">Item 2</a></li>
+    <li class="mui-table-view-cell"><a class="mui-navigate-right">Item 3</a></li>
+</ul>
+```
+mui支持将数字角标、按钮、开关等控件放在列表中；mui默认将数字角标放在列表右侧显示，代码如下：
+```html
+<ul class="mui-table-view">
+    <li class="mui-table-view-cell">Item 1<span class="mui-badge mui-badge-primary">11</span></li>
+    <li class="mui-table-view-cell">Item 2<span class="mui-badge mui-badge-success">22</span></li>
+    <li class="mui-table-view-cell">Item 3<span class="mui-badge">33</span></li>
+</ul>
+```
+19. 图文列表
+图文列表继承自列表组件，主要添加了`.mui-media`、`.mui-media-object`、`.mui-media-body`几个类，如下为示例代码：
+```html
+<ul class="mui-table-view">
+  <li class="mui-table-view-cell mui-media">
+    <a href="javascript:;">
+      <img class="mui-media-object mui-pull-left" src="imgs/1.jpg">
+      <div class="mui-media-body">
+          幸福
+        <p class='mui-ellipsis'>能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+      </div>
+    </a>
+  </li>
+  <li class="mui-table-view-cell mui-media">
+    <a href="javascript:;">
+      <img class="mui-media-object mui-pull-left" src="imgs/1.jpg">
+      <div class="mui-media-body">
+          木屋
+        <p class='mui-ellipsis'>想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
+      </div>
+    </a>
+  </li>
+</ul>
+```
+20. 有准确值的进度条
+有准确值的进度条会显示当前进度正处于整体进度的占比位置，用户可以更直观的预期完成时间；使用进度条控件，需要一个进度条控件容器，mui会自动识
+别该容器下是否有进度条控件，若没有，则自动创建。进度条控件DOM结构：
+```html
+<div id="demo1" class="mui-progressbar">
+    <span></span>
+</div>
+```
+初始化:
+```javascript
+mui(container).progressbar({progress:20}).show();
+```
+`progressbar`初始化逻辑：
+检查当前容器(`container`控件)自身是否包含`.mui-progressbar`类：
+当前容器包含`.mui-progressbar`类，则以当前容器为目标控件，直接显示进度；
+否则，检查当前容器的直接孩子节点是否包含`.mui-progressbar`类，若存在，则以遍历到的第一个含有`.mui-progressbar`类的孩子节点为目标控件，
+显示进度；若当前容器的直接孩子节点，均不含`.mui-progressbar`类,则自动创建进度条控件；
+更改显示进度条:
+```javascript
+mui(container).progressbar().setProgress(50);
+```
+关闭进度条:
+```javascript
+mui(container).progressbar().hide();
+```
+备注：关闭进度条一般用于动态创建（DOM中预先未定义）的进度条，调用`hide`方法后，会直接删掉对应的DOM节点；若已提前创建好DOM节点的进度条，
+调用`hide`方法无效；
+21. 滑块
+```html
+<div class="mui-input-row mui-input-range">
+    <label>Range</label>
+    <input type="range" min="0" max="100">
+</div>
+```
+获取滑块数值的样例代码
+```javascript
+<div class="mui-content">
+<div class="mui-input-row mui-input-range">
+    <label>Range</label>
+    <input type="range" min="0" max="100" id="range1">
+</div>
+<div style="padding:20px;">
+    <input type="button" class="mui-btn" value="获取滑块值" onclick="getVal();" />
+</div>
+</div>
+<script>
+function getVal(){
+    var rangeObj = mui('#range1');
+    mui.toast(rangeObj[0].value);
+}
+```
+22. switch 开关
+mui提供了开关控件，点击滑动两种手势都可以对开关控件进行操作,默认开关控件,带`on`/`off`文字提示，打开时为绿色背景，基本`class`类为`.mui-switch`、
+`.mui-switch-handle`，DOM结构如下：
+```html
+<div class="mui-switch">
+  <div class="mui-switch-handle"></div>
+</div>
+```
+若希望开关默认为打开状态，只需要在`.mui-switch`节点上增加`.mui-active`类即可，如下：
+```html
+<!-- 开关打开状态，多了一个.mui-active类 -->
+<div class="mui-switch mui-active">
+  <div class="mui-switch-handle"></div>
+</div>
+```
+若希望隐藏`on`/`off`文字提示，变成简洁模式，需要在`.mui-switch`节点上增加`.mui-switch-mini`类，如下：
+```html
+<!-- 简洁模式开关关闭状态 -->
+<div class="mui-switch mui-switch-mini">
+  <div class="mui-switch-handle"></div>
+</div>
+<!-- 简洁模式开关打开状态 -->
+<div class="mui-switch mui-switch-mini mui-active">
+  <div class="mui-switch-handle"></div>
+</div>
+```
+mui默认还提供了蓝色开关控件，只需在`.mui-switch`节点上增加`.mui-switch-blue`类即可，如下：
+```html
+<!-- 蓝色开关关闭状态 -->
+<div class="mui-switch mui-switch-blue">
+  <div class="mui-switch-handle"></div>
+</div>
+<!-- 蓝色开关打开状态 -->
+<div class="mui-switch mui-switch-blue mui-active">
+  <div class="mui-switch-handle"></div>
+</div>
+```
+蓝色开关上增加`.mui-switch-mini`即可变成无文字的简洁模式
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+若要获得当前开关状态，可通过判断当前开关控件是否包含`.mui-active`类来实现，若包含，则为打开状态，否则即为关闭状态；
+如下为代码示例：
+```javascript
+var isActive = document.getElementById("mySwitch").classList.contains("mui-active");
+if(isActive){
+  console.log("打开状态");
+}else{
+  console.log("关闭状态");  
+}
+```
+若使用js打开、关闭开关控件，可使用`switch`插件的`toggle()`方法，如下为示例代码：
+```javascript
+mui("#mySwitch").switch().toggle();
+```
+##### 事件
+开关控件在打开/关闭两种状态之间进行切换时，会触发`toggle`事件,通过事件的`detail.isActive`属性可以判断当前开关状态。可通过监听`toggle`事件，可
+以在开关切换时执行特定业务逻辑。
+如下为使用示例：
+```javascript
+document.getElementById("mySwitch").addEventListener("toggle",function(event){
+  if(event.detail.isActive){
+    console.log("你启动了开关");
+  }else{
+    console.log("你关闭了开关");  
+  }
+})
+```
+23. cardview（卡片视图）
+使用`mui-card`类即可生成一个卡片容器，卡片视图主要有页眉、内容区、页脚三部分组成，结构如下：
+```html
+<div class="mui-card">
+    <!--页眉，放置标题-->
+    <div class="mui-card-header">页眉</div>
+    <!--内容区-->
+    <div class="mui-card-content">内容区</div>
+    <!--页脚，放置补充信息或支持的操作-->
+    <div class="mui-card-footer">页脚</div>
+</div>
+```
+卡片页眉及内容区，均支持放置图片； 页眉放置图片的话，需要在`.mui-card-header`节点上增加`.mui-card-media`类，然后设置一张图片做背景图即可，
+代码如下：
+```html
+<div class="mui-card-header mui-card-media" style="height:40vw;background-image:url(./liyaxin.jpg)"></div>
+```
+若希望在页眉放置更丰富的信息，比如头像、主标题、副标题，则需使用`.mui-media-body`类，示例代码如下：
+```html
+<div class="mui-card-header mui-card-media">
+    <img src="../images/logo.png" />
+    <div class="mui-media-body">
+        小M
+	<p>发表于 2016-06-30 15:30</p>
+    </div>
+</div>
+```
+##### 小技巧
+图片出现默认的空白解决方案：
+```css
+    line-height:0px;
+```
+24. mask（遮罩蒙版）
+在`popover`、侧滑菜单等界面，经常会用到蒙版遮罩；比如`popover`弹出后，除`popover`控件外的其它区域都会遮罩一层蒙版，用户点击蒙版不会触发蒙版下方
+的逻辑，而会关闭`popover`同时关闭蒙版；再比如侧滑菜单界面，菜单划出后，除侧滑菜单之外的其它区域都会遮罩一层蒙版，用户点击蒙版会关闭侧滑菜单同时关
+闭蒙版。
+遮罩蒙版常用的操作包括：创建、显示、关闭，如下代码：
+```javascript
+var mask = mui.createMask(callback);//callback为用户点击蒙版时自动执行的回调；
+mask.show();//显示遮罩
+mask.close();//关闭遮罩
+```
+注意：关闭遮罩仅会关闭，不会销毁；关闭之后可以再次调用`mask.show();`打开遮罩；
+mui默认的蒙版遮罩使用`.mui-backdrop`类定义（如下代码），若需自定义遮罩效果，只需覆盖定义`.mui-backdrop`即可；
+```css
+.mui-backdrop {position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 998;background-color: rgba(0,0,0,.3);}
+```
+25. mui插件初始化
+使用 `mui.init();` 进行mui插件初始化。
+26. 页面初始化
+在app开发中，若要使用HTML5+扩展api，必须等`plusready`事件发生后才能正常使用，mui将该事件封装成了`mui.plusReady()`方法，涉及到HTML5+的api，
+建议都写在`mui.plusReady`方法中。如下为打印当前页面URL的示例：
+```javascript
+mui.plusReady(function(){
+     console.log("当前页面URL："+plus.webview.currentWebview().getURL());
+});
+```
+27. 创建子页面
+在移动app开发过程中，经常遇到卡头卡尾的页面，此时若使用局部滚动，在android手机上会出现滚动不流畅的问题； mui的解决思路是：将需要滚动的区域通过
+单独的`webview`实现，完全使用原生滚动。具体做法则是：将目标页面分解为主页面和内容页面，主页面显示卡头卡尾区域，比如顶部导航、底部选项卡等；内容页
+面显示具体需要滚动的内容，然后在主页面中调用`mui.init`方法初始化内容页面。
+```javascript
+mui.init({
+    subpages:[{
+        url:your-subpage-url,//子页面HTML地址，支持本地地址和网络地址
+        id:your-subpage-id,//子页面标志
+        styles:{
+            top:subpage-top-position,//子页面顶部位置
+            bottom:subpage-bottom-position,//子页面底部位置
+            width:subpage-width,//子页面宽度，默认为100%
+            height:subpage-height,//子页面高度，默认为100%
+        },
+    extras:{}//额外扩展参数
+    }]
+});
+```
+参数说明：`styles`表示窗口属性，参考5+规范中的`WebviewStyle`；特别注意，`height`和`width`两个属性,即使不设置，也默认按100%计算；因此若设置了
+`top`值为非`"0px"`的情况，建议同时设置`bottom`值，否则5+ runtime根据高度100%计算，可能会造成页面真实底部位置超出屏幕范围的情况；`left`、`right`
+同理。
+##### 代码样例
+主页面index.html
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title></title>
+        <script src="js/mui.min.js"></script>
+        <link href="css/mui.min.css" rel="stylesheet"/>
+    </head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+        <h1 class="mui-title">hello</h1>
+    </header>
+</body>
+<script type="text/javascript">
+mui.init({
+     subpages:[{
+         url   :'liyaxin.html',
+         id    : 'liyaxin.html',
+         styles:{
+            top    : '45px',//子页面顶部位置
+            bottom : '0px',//子页面底部位置
+            width  : '100%',
+            height : '100%'
+          },
+     }]
+});
+</script>
+</html>
+```
+子页面 liyaxin.html
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title></title>
+        <script src="js/mui.min.js"></script>
+        <link href="css/mui.min.css" rel="stylesheet"/>
+        <script type="text/javascript" charset="utf-8">
+        mui.init();
+        </script>
+    </head>
+<body>
+<div class="mui-content">
+    <div class="mui-card">
+        <!--页眉，放置标题-->
+        <div class="mui-card-header mui-card-media">
+            <img src="imgs/logo.png" />
+            <div class="mui-media-body">
+                小M
+                <p>发表于 2016-06-30 15:30</p>
+            </div>
+        </div>
+        <!--内容区-->
+        <div class="mui-card-content" style="overflow:hidden; padding:0px; line-height:0px;">
+            <img src="imgs/1.jpg" width="100%" />
+        </div>
+        <!--页脚，放置补充信息或支持的操作-->
+        <div class="mui-card-footer">页脚</div>
+    </div>
+    <div class="mui-card">
+        <!--页眉，放置标题-->
+        <div class="mui-card-header mui-card-media">
+            <img src="imgs/logo.png" />
+            <div class="mui-media-body">
+                小M
+                <p>发表于 2016-06-30 15:30</p>
+            </div>
+        </div>
+        <!--内容区-->
+        <div class="mui-card-content" style="overflow:hidden; padding:0px;">
+            <img src="imgs/1.jpg" width="100%" />
+        </div>
+        <!--页脚，放置补充信息或支持的操作-->
+        <div class="mui-card-footer">页脚</div>
+    </div>
+</div>
+</body>
+</html>
+```
