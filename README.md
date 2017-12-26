@@ -334,6 +334,7 @@ document.getElementById("pickTimeBtn").addEventListener('tap', function() {
 });
 ```
 ##### js获取当前时间
+```
 var myDate = new Date();
 myDate.getYear();        //获取当前年份(2位)
 myDate.getFullYear();    //获取完整的年份(4位,1970-????)
@@ -348,6 +349,7 @@ myDate.getMilliseconds();    //获取当前毫秒数(0-999)
 myDate.toLocaleDateString();     //获取当前日期
 var mytime=myDate.toLocaleTimeString();     //获取当前时间
 myDate.toLocaleString( );        //获取日期与时间
+```
 12. `mui.alert()` 普通提醒
 ##### 参数
 ```
