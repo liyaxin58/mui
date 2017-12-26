@@ -456,3 +456,111 @@ mui在`mui.init()`中会自动初始化基本控件,但是 动态添加的元素
 ```javascript
 mui('.mui-input-row input').input();
 ```
+17. 轮播组件
+轮播组件是mui提供的一个核心组件，在该核心组件基础上，衍生出了图片轮播、可拖动式图文表格、可拖动式选项卡、左右滑动9宫格等组件，这些组件有较多
+共同点。
+##### Dom构造：
+```javascript
+<div class="mui-slider">
+  <div class="mui-slider-group">
+    <!--第一个内容区容器-->
+    <div class="mui-slider-item">
+      <!-- 具体内容 -->
+    </div>
+    <!--第二个内容区-->
+    <div class="mui-slider-item">
+      <!-- 具体内容 -->
+    </div>
+  </div>
+</div>
+```
+##### js部分
+```
+mui.plusReady(function(){
+    //获得slider插件对象
+    var gallery = mui('.mui-slider');
+        gallery.slider({
+  	    interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+    });
+});
+```
+##### 显示圆点
+```html
+<div class="mui-slider-indicator">
+    <div class="mui-indicator mui-active"></div>
+    <div class="mui-indicator"></div>
+</div>
+```
+##### 轮播循环
+若要支持循环，则需要在`.mui-slider-group`节点上增加`.mui-slider-loop`类，同时需要重复增加2张图片，图片顺序变为：4、1、2、3、4、1，代码
+示例如下：
+```html
+<div class="mui-slider">
+  <div class="mui-slider-group mui-slider-loop">
+    <!--支持循环，需要重复图片节点-->
+    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="4.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="1.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="2.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="3.jpg" /></a></div>
+    <div class="mui-slider-item"><a href="#"><img src="4.jpg" /></a></div>
+    <!--支持循环，需要重复图片节点-->
+    <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="1.jpg" /></a></div>
+  </div>
+</div>
+```
+##### 轮播跳转
+若要跳转到第x张图片，则可以使用图片轮播插件的`gotoItem`方法，例如：
+```javascript
+var gallery = mui('.mui-slider');
+gallery.slider().gotoItem(index);//跳转到第index张图片，index从0开始；
+```
+##### 轮播事件
+当拖动切换显示内容时，会触发slide事件，通过该事件的`detail.slideNumber`参数可以获得当前显示项的索引（第一项索引为0，第二项为1，以此类推），
+利用该事件，可在显示内容切换时，动态处理一些业务逻辑。
+
+如下为一个可拖动式选项卡示例，为提高页面加载速度，页面加载时，仅显示第一个选项卡的内容，第二、第三选项卡内容为空。
+当切换到第二、第三个选项卡时，再动态获取相应内容进行显示：
+```javascript
+var item2Show = false,item3Show = false;//子选项卡是否显示标志
+document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+  if (event.detail.slideNumber === 1&&!item2Show) {
+    //切换到第二个选项卡
+    //根据具体业务，动态获得第二个选项卡内容；
+    var content = ....
+    //显示内容
+    document.getElementById("item2").innerHTML = content;
+    //改变标志位，下次直接显示
+    item2Show = true;
+  } else if (event.detail.slideNumber === 2&&!item3Show) {
+    //切换到第三个选项卡
+    //根据具体业务，动态获得第三个选项卡内容；
+    var content = ....
+    //显示内容
+    document.getElementById("item3").innerHTML = content;
+    //改变标志位，下次直接显示
+    item3Show = true;
+  }
+});
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
